@@ -1,0 +1,9 @@
+const $=s=>document.querySelector(s);if(localStorage.getItem("tn-theme")==="dark")document.body.classList.add("dark");
+$("#theme")?.addEventListener("click",()=>{document.body.classList.toggle("dark");localStorage.setItem("tn-theme",document.body.classList.contains("dark")?"dark":"light")});
+$("#menu")?.addEventListener("click",()=>$("#nav")?.classList.toggle("open"));
+document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>$("#nav")?.classList.remove("open")));
+const grid=$("#grid");
+if(grid){const render=f=>"".concat(grid.innerHTML=ARTICLES.filter(a=>f==="All"||a.c===f).map(a=>`<article class="card"><span>${a.c} · ${a.read}</span><h3>${a.t}</h3><p>${a.d}</p><a href="article.html?id=${a.id}">Read Article →</a></article>`).join(""));render("All");document.querySelectorAll(".filters button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".filters button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render(b.dataset.f)})}
+const search=$("#search");if(search)search.oninput=()=>{let q=search.value.toLowerCase(),m=ARTICLES.filter(a=>(a.t+" "+a.d+" "+a.c).toLowerCase().includes(q)).slice(0,6);$("#results").innerHTML=q?m.map(a=>`<a href="article.html?id=${a.id}">${a.t}</a>`).join(""):""};
+const art=$("#article");if(art){let id=new URLSearchParams(location.search).get("id")||"ai-everyday",a=ARTICLES.find(x=>x.id===id)||ARTICLES[0];document.title=a.t+" — TechNova";$("#desc").content=a.d;art.innerHTML=`<span class="tag">${a.c}</span><h1>${a.t}</h1><div class="meta">${a.date} · ${a.read}</div><p class="lead">${a.d}</p>${a.p.map(x=>`<section><h2>${x[0]}</h2><p>${x[1]}</p></section>`).join("")}<a class="btn" href="index.html#latest">More TechNova stories →</a>`}
+$("#form")?.addEventListener("submit",e=>{e.preventDefault();alert("Thanks! The newsletter demo is working.")});
